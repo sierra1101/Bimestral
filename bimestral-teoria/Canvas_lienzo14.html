@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Canvas básico</title>
+        <style>
+            #miCanvas
+            {
+                border: dotted 3px yellow;
+                background: green;
+            }
+        </style>
+        <script>
+            window.onload = function()
+            {
+                var canvas = document.getElementById("miCanvas");
+                if(canvas && canvas.getContext){
+                    var ctx = canvas.getContext("2d");
+                    if(ctx)
+                    {
+                        var imagen = new Image();
+                        function procesaImagen (){
+                            ctx.drawImage (imagen, 10, 10);
+                            var w = imagen.width;
+                            var h = imagen.height;
+                            var imagenData = ctx.getImageData (10, 10, w, h) ;
+                            var data = imagenData.data;
+                            //escala de grises
+                            for(var i=0; i<data.length; i+=4){
+                                var gris = (data[i]+data [i+1] +data [i+2])/3
+                                data[i]= gris;
+                                data[i+1] = gris; 1 //Verde
+                                data[i+2] = gris; 1 //Azul
+                                //rojo
+                            }
+                            ctx.putImageData (imagenData, 250, 10);
+                        }
+                        //
+                        imagen.src = "img/fondo.jpg";
+                        imagen.onload = function (e){
+                            procesaImagen()
+                        }   
+                    }                            
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <h1>conceptos básicos de Canvas</h1>
+        <canvas id="miCanvas" width="500px" height="300px">Tu navegador no soporta canvas</canvas>
+    </body>
+</html>
